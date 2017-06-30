@@ -8,21 +8,45 @@ namespace SimpleBloodQuiz
         {
 
 
-		/* 
-		 * 1. Czy da się to krócej zapisać (ArrayList?)
-         * +2. Jak zapisać, żeby przy złej odpowiedzi można było spróbować ponownie
-         *    aż do uzyskania prawidłowej odpowiedzi (for loop ze stringami?)
-         * 3. Jakie pliki powstają przy tworzeniu projektu i które wysyłać,
-         *    żeby program działał u kogoś innego (.sln, .csproj?)
-         * 4. Co zrobić, żeby zamieniał kolejność odpowiedzi w pytaniach na losową (jakiś random?)
-         * 5. Jak zrobić aplikację w oknie
-         */
+            /* 
+             * 1. Czy da się to krócej zapisać (ArrayList?)
+             * +2. Jak zapisać, żeby przy złej odpowiedzi można było spróbować ponownie
+             *    aż do uzyskania prawidłowej odpowiedzi (for loop ze stringami?)
+             * 3. Jakie pliki powstają przy tworzeniu projektu i które wysyłać,
+             *    żeby program działał u kogoś innego (.sln, .csproj?)
+             * 4. Co zrobić, żeby zamieniał kolejność odpowiedzi w pytaniach na losową (jakiś random?)
+             * 5. Jak zrobić aplikację w oknie
+             */
+
+            QuestionAnswerEntity[] QuestionsAndAnswers = new QuestionAnswerEntity[9];
+
+            QuestionsAndAnswers[0] = new QuestionAnswerEntity { Question = "1.Gdzie znajdują się komórki krwiotwórcze ? ", AnswersList = new []{ "\na) w wątrobie", "\nb) w sercu", "\nc) w szpiku", "\nd) w śledzionie" },  Answer = "c"};
 
 
+            
 
-			Console.WriteLine("To jest krótki quiz o krwi.");
+            Console.WriteLine("To jest krótki quiz o krwi.");
             int score = 0;
 
+            for (int i = 0; i < QuestionsAndAnswers.Length; i++)
+            {
+                Console.WriteLine(QuestionsAndAnswers[i].Question);
+
+                String answ = Console.ReadLine();
+
+
+                if (answ == QuestionsAndAnswers[i].Answer) score++; //score nabija się tylko, jeśli pierwsza odp jest poprawna
+
+                for (; answ != QuestionsAndAnswers[i].Answer;)
+                {
+                    Console.WriteLine("Źle, spróbuj ponownie");
+                    answ = Console.ReadLine();
+                }
+                if (answ == QuestionsAndAnswers[i].Answer)
+                {
+                    Console.WriteLine("Dobrze");
+                }
+            }
 
             //Pytanie 1 - powstawanie komórek krwi, hematopoeza
             Console.WriteLine("1. Gdzie znajdują się komórki krwiotwórcze?" +
