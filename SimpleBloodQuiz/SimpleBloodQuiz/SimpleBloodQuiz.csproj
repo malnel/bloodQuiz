@@ -32,9 +32,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerEntityArek.cs" />
+    <Compile Include="ArekBloodQuiz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionAnswerEntity.cs" />
+    <Compile Include="QuestionAnswerEntityArek.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
