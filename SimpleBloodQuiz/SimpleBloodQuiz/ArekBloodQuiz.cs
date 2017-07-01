@@ -5,25 +5,25 @@ using SimpleBloodQuiz;
 
 namespace SimpleBloodQuiz
 {
-    public  class ArekBloodQuiz
+    public class ArekBloodQuiz
     {
         static ArekBloodQuiz()
         {
             var questionsAndAnswers = PrepareQuestions(); // w tej metodzie przygotowujemy pytania i odpowiedzi
             Console.WriteLine("To jest krótki quiz o krwi. ArekVersion 1.0.0.0");
             int score = 0;
-            int[] indxArr = new[] { 0, 1, 2, 3 }; // tablica, na ktorej losujemy kolejnosc odpowiedzi;
-            string[] charArr = new[] { "a", "b", "c", "d" }; //indeksy odpowiedzi
+            // tablica, na ktorej losujemy kolejnosc odpowiedzi;
+
             for (int i = 0; i < questionsAndAnswers.Count; i++)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(questionsAndAnswers[i].Question);
-                new Random().Shuffle(indxArr); //losowa kolejnosc
-                DisplayAnswers(indxArr, questionsAndAnswers, i, charArr);
+                DisplayShuffledAnswers(questionsAndAnswers[i].AnswersList);
                 Console.WriteLine();
-                score = CheckAnswer(questionsAndAnswers, i, score);
+                score = CheckAnswer(questionsAndAnswers[i].AnswersList, score);
 
                 #region inna wersja testu - pyta o odp tylko raz i od razu podaje prawidłową
-                // score = CheckAnswerV2(questionsAndAnswers, i, score);
+               // score = CheckAnswerV2(questionsAndAnswers[i].AnswersList, score);
                 #endregion
             }
 
@@ -228,11 +228,12 @@ namespace SimpleBloodQuiz
             //*/ 
             #endregion
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("KONIEC. Twój wynik to: " + score + "/" + questionsAndAnswers.Count); // Twoj wynik na rzeczywista ilosc pytan
             Console.ReadLine();
         }
 
-        private static int CheckAnswerV2(List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
+        private static int CheckAnswerV2(List<AnswerEntityArek> answers, int score)
         {
             var isCorrect = false; // wartosc logiczna czy odpowiedz jest prawidlowa
             while (!isCorrect) // wykonuj do czasu udzielenia prawidlowej odpowiedzi , czyli tak dlugo jak wartosc isCorrect jest rowna false
@@ -240,12 +241,12 @@ namespace SimpleBloodQuiz
                 var response = Console.ReadKey(); //odzytujemy klawisz wcisniety przez uzytkownika
 
                 // LINQ-  tu sprawdzamy jaka wartosc ma wlasciowsc IsCorrectAnswer dla odpowiedzi o wartosci Key - czyli klawisza wcisnietego przez uzytkownika
-                isCorrect = questionsAndAnswers[i].AnswersList.Where(
+                isCorrect = answers.Where(
                         answ => answ.Key.Equals(response.KeyChar.ToString())).Select(answ => answ.IsCorrectAnswer)
                     .FirstOrDefault();
 
                 #region to samo bez LINQ
-                //foreach (var answer in questionsAndAnswers[i].AnswersList)
+                //foreach (var answer in answers)
                 //{
                 //    if (answer.Key.Equals(response.KeyChar.ToString()))
                 //    {
@@ -261,13 +262,12 @@ namespace SimpleBloodQuiz
                 }
                 else
                 {
-                    //LINQ tu wyciagamy info jaki klucz z tablicy [a,b,c,d] byl przypisany do prawidlowej odpowiedzi
-                    Console.WriteLine("Źle, poprawna odpowiedź to: " + questionsAndAnswers[i].AnswersList
-                                          .Where(ans => ans.IsCorrectAnswer).Select(ans => ans.Key)
+                    //LINQ tu wyciagamy info jaki klucz z tablicy [a,b,c,d...] byl przypisany do prawidlowej odpowiedzi
+                    Console.WriteLine("Źle, poprawna odpowiedź to: " + answers.Where(ans => ans.IsCorrectAnswer).Select(ans => ans.Key)
                                           .FirstOrDefault());
                     //* to samo bez uzycia LINQ */
                     #region to samo bez uzycia LINQ
-                    //foreach (var answer in questionsAndAnswers[i].AnswersList)
+                    //foreach (var answer in answers)
                     //{
                     //    if (answer.IsCorrectAnswer)
                     //    {
@@ -280,21 +280,22 @@ namespace SimpleBloodQuiz
             return score;
         }
 
-        private static int CheckAnswer(List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
+        private static int CheckAnswer(List<AnswerEntityArek> answers, int score)
         {
             var isCorrect = false; // wartosc logiczna czy odpowiedz jest prawidlowa
             var loop = 0; //zmienna loop liczy razy uzytkownik odpowiedzial na dane pytanie, wartosc zerowana dla kazdego pytania
             while (!isCorrect) // wykonuj do czasu udzielenia prawidlowej odpowiedzi , czyli tak dlugo jak wartosc isCorrect jest rowna false
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write("Twoja odpowiedz to: ");
                 ConsoleKeyInfo response = Console.ReadKey(); //odzytujemy klawisz wcisniety przez uzytkownika
-                isCorrect = questionsAndAnswers[i].AnswersList.Where(
+                isCorrect = answers.Where(
                         answ => answ.Key.Equals(response.KeyChar.ToString())).Select(answ => answ.IsCorrectAnswer)
                     .FirstOrDefault(); // tu sprawdzamy jaka wartosc ma wlasciowsc IsCorrectAnswer dla odpowiedzi o wartosci Key - czyli klawisza wybranego przez uzytkownika
 
                 #region to samo bez LINQ
 
-                //    //foreach (var answer in questionsAndAnswers[i].AnswersList)
+                //    //foreach (var answer in answers)
                 //    //{
                 //    //    if (answer.Key.Equals(response.KeyChar.ToString()))
                 //    //    {
@@ -309,24 +310,29 @@ namespace SimpleBloodQuiz
                     score++; //score nabija się tylko, jeśli pierwsza odp jest poprawna , 
                 if (isCorrect)
                 {
-                    Console.WriteLine();
-                    continue; // jesli isCorrect ==true przejdz do kolejnego pytania
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\r\nOdpowiedź poprawna");
+                    break; // jesli isCorrect ==true przejdz do kolejnego pytania
                 }
                 loop++; // zwieksz o 1 jesli odpowiedz jest nieprawidlowa  na dane pytanie
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\r\nŹle, spróbuj ponownie");
             }
             return score;
         }
 
-        private static void DisplayAnswers(int[] indxArr, List<QuestionAnswerEntityArek> questionsAndAnswers, int i, string[] charArr)
+        private static void DisplayShuffledAnswers(List<AnswerEntityArek> answers)
         {
-            for (int j = 0; j < indxArr.Length; j++)
+            char keyValue = 'a';
+            //inicjalizujemy liste  liczbami calkowitymi  od 0 , lista bedzie zawierala tyle elementow ile jest odpowiedzi na dane pytanie
+            List<int> indxList = Enumerable.Range(0, answers.Count).ToList();
+            new Random().Shuffle(indxList); //losowa kolejnosc
+            foreach (int indx in indxList)
             {
-                questionsAndAnswers[i].AnswersList[indxArr[j]].Key =
-                    charArr[j]; // tu przypisujemy kazdej odpowiedzi klucz z tablicy [a,b,c,d]
-                Console.WriteLine(charArr[j] + ")" +
-                                  questionsAndAnswers[i].AnswersList[indxArr[j]]
-                                      .Answer); // wyswietlamy odpowiedzi w losowej kolejnosci
+                answers[indx].Key = keyValue++.ToString();
+                // tu przypisujemy kazdej odpowiedzi klucz  :  1. odp => a , 2.odp =>b itd
+                Console.WriteLine(answers[indx].Key + ")" +
+                                  answers[indx].Answer); // wyswietlamy odpowiedzi w losowej kolejnosci
             }
         }
 
@@ -377,6 +383,17 @@ namespace SimpleBloodQuiz
                 T temp = array[n];
                 array[n] = array[k];
                 array[k] = temp;
+            }
+        }
+        public static void Shuffle<T>(this Random rng, List<T> collection)
+        {
+            int n = collection.Count;
+            while (n > 1)
+            {
+                int k = rng.Next(n--);
+                T temp = collection[n];
+                collection[n] = collection[k];
+                collection[k] = temp;
             }
         }
     }
