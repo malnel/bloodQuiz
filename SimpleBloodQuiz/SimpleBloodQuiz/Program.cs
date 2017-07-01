@@ -8,7 +8,7 @@ namespace SimpleBloodQuiz
         {
 
             new ArekBloodQuiz(); // tu odpalam swoj test
-
+            
             /* 
              * 1. Czy da się to krócej zapisać (ArrayList?)
              * +2. Jak zapisać, żeby przy złej odpowiedzi można było spróbować ponownie

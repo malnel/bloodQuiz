@@ -5,7 +5,7 @@ using SimpleBloodQuiz;
 
 namespace SimpleBloodQuiz
 {
-    public class ArekBloodQuiz
+    public  class ArekBloodQuiz
     {
         static ArekBloodQuiz()
         {
@@ -20,10 +20,10 @@ namespace SimpleBloodQuiz
                 new Random().Shuffle(indxArr); //losowa kolejnosc
                 DisplayAnswers(indxArr, questionsAndAnswers, i, charArr);
                 Console.WriteLine();
-                score = CheckAnswer( questionsAndAnswers, i,  score);
+                score = CheckAnswer(questionsAndAnswers, i, score);
 
                 #region inna wersja testu - pyta o odp tylko raz i od razu podaje prawidłową
-               // score = CheckAnswerV2(questionsAndAnswers, i, score);
+                // score = CheckAnswerV2(questionsAndAnswers, i, score);
                 #endregion
             }
 
@@ -232,7 +232,7 @@ namespace SimpleBloodQuiz
             Console.ReadLine();
         }
 
-        private static int CheckAnswerV2( List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
+        private static int CheckAnswerV2(List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
         {
             var isCorrect = false; // wartosc logiczna czy odpowiedz jest prawidlowa
             while (!isCorrect) // wykonuj do czasu udzielenia prawidlowej odpowiedzi , czyli tak dlugo jak wartosc isCorrect jest rowna false
@@ -243,7 +243,7 @@ namespace SimpleBloodQuiz
                 isCorrect = questionsAndAnswers[i].AnswersList.Where(
                         answ => answ.Key.Equals(response.KeyChar.ToString())).Select(answ => answ.IsCorrectAnswer)
                     .FirstOrDefault();
-                
+
                 #region to samo bez LINQ
                 //foreach (var answer in questionsAndAnswers[i].AnswersList)
                 //{
@@ -280,7 +280,7 @@ namespace SimpleBloodQuiz
             return score;
         }
 
-        private static int CheckAnswer( List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
+        private static int CheckAnswer(List<QuestionAnswerEntityArek> questionsAndAnswers, int i, int score)
         {
             var isCorrect = false; // wartosc logiczna czy odpowiedz jest prawidlowa
             var loop = 0; //zmienna loop liczy razy uzytkownik odpowiedzial na dane pytanie, wartosc zerowana dla kazdego pytania
@@ -304,7 +304,7 @@ namespace SimpleBloodQuiz
 
                 #endregion
 
-                
+
                 if (isCorrect && loop.Equals(0))
                     score++; //score nabija się tylko, jeśli pierwsza odp jest poprawna , 
                 if (isCorrect)
@@ -313,7 +313,7 @@ namespace SimpleBloodQuiz
                     continue; // jesli isCorrect ==true przejdz do kolejnego pytania
                 }
                 loop++; // zwieksz o 1 jesli odpowiedz jest nieprawidlowa  na dane pytanie
-                Console.WriteLine("Źle, spróbuj ponownie");
+                Console.WriteLine("\r\nŹle, spróbuj ponownie");
             }
             return score;
         }
@@ -345,7 +345,7 @@ namespace SimpleBloodQuiz
                         {
                             Answer = "w szpiku",
                             IsCorrectAnswer = true  // tak zaznaczamy prawidlowa odpowiedz
-                        }, 
+                        },
                         new AnswerEntityArek {Answer = "w śledzionie"}
                     }
                 },
