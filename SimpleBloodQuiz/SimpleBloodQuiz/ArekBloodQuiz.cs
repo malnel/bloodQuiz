@@ -12,8 +12,8 @@ namespace SimpleBloodQuiz
             var questionsAndAnswers = PrepareQuestions(); // w tej metodzie przygotowujemy pytania i odpowiedzi
             Console.WriteLine("To jest krótki quiz o krwi. ArekVersion 1.0.0.0");
             int score = 0;
-            var indxArr = new[] { 0, 1, 2, 3 }; // tablica, na ktorej losujemy kolejnosc odpowiedzi;
-            var charArr = new[] { "a", "b", "c", "d" }; //indeksy odpowiedzi
+            int[] indxArr = new[] { 0, 1, 2, 3 }; // tablica, na ktorej losujemy kolejnosc odpowiedzi;
+            string[] charArr = new[] { "a", "b", "c", "d" }; //indeksy odpowiedzi
             for (int i = 0; i < questionsAndAnswers.Count; i++)
             {
                 Console.WriteLine(questionsAndAnswers[i].Question);
@@ -287,7 +287,7 @@ namespace SimpleBloodQuiz
             while (!isCorrect) // wykonuj do czasu udzielenia prawidlowej odpowiedzi , czyli tak dlugo jak wartosc isCorrect jest rowna false
             {
                 Console.Write("Twoja odpowiedz to: ");
-                var response = Console.ReadKey(); //odzytujemy klawisz wcisniety przez uzytkownika
+                ConsoleKeyInfo response = Console.ReadKey(); //odzytujemy klawisz wcisniety przez uzytkownika
                 isCorrect = questionsAndAnswers[i].AnswersList.Where(
                         answ => answ.Key.Equals(response.KeyChar.ToString())).Select(answ => answ.IsCorrectAnswer)
                     .FirstOrDefault(); // tu sprawdzamy jaka wartosc ma wlasciowsc IsCorrectAnswer dla odpowiedzi o wartosci Key - czyli klawisza wybranego przez uzytkownika
@@ -304,6 +304,7 @@ namespace SimpleBloodQuiz
 
                 #endregion
 
+                
                 if (isCorrect && loop.Equals(0))
                     score++; //score nabija się tylko, jeśli pierwsza odp jest poprawna , 
                 if (isCorrect)

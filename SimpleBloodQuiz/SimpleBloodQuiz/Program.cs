@@ -19,6 +19,9 @@ namespace SimpleBloodQuiz
              * 5. Jak zrobić aplikację w oknie
              */
 
+
+            //ponizej zostawiam w stanie jak zostawil Bartek
+
             Console.Clear();
             Console.WriteLine("Oryginalny quiz");
 
@@ -26,7 +29,7 @@ namespace SimpleBloodQuiz
 
             QuestionsAndAnswers[0] = new QuestionAnswerEntity { Question = "1.Gdzie znajdują się komórki krwiotwórcze ? ", AnswersList = new[] { "\na) w wątrobie", "\nb) w sercu", "\nc) w szpiku", "\nd) w śledzionie" }, Answer = "c" };
 
-
+            
 
 
             Console.WriteLine("To jest krótki quiz o krwi.");
