@@ -19,11 +19,11 @@ namespace SimpleBloodQuiz
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine(questionsAndAnswers[i].Question);
                 DisplayShuffledAnswers(questionsAndAnswers[i].AnswersList);
-                Console.WriteLine();
+
                 score = CheckAnswer(questionsAndAnswers[i].AnswersList, score);
 
                 #region inna wersja testu - pyta o odp tylko raz i od razu podaje prawidłową
-               // score = CheckAnswerV2(questionsAndAnswers[i].AnswersList, score);
+                // score = CheckAnswerV2(questionsAndAnswers[i].AnswersList, score);
                 #endregion
             }
 
@@ -284,6 +284,7 @@ namespace SimpleBloodQuiz
         {
             var isCorrect = false; // wartosc logiczna czy odpowiedz jest prawidlowa
             var loop = 0; //zmienna loop liczy razy uzytkownik odpowiedzial na dane pytanie, wartosc zerowana dla kazdego pytania
+            Console.WriteLine();
             while (!isCorrect) // wykonuj do czasu udzielenia prawidlowej odpowiedzi , czyli tak dlugo jak wartosc isCorrect jest rowna false
             {
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -331,7 +332,7 @@ namespace SimpleBloodQuiz
             {
                 answers[indx].Key = keyValue++.ToString();
                 // tu przypisujemy kazdej odpowiedzi klucz  :  1. odp => a , 2.odp =>b itd
-                Console.WriteLine(answers[indx].Key + ")" +
+                Console.WriteLine("\t" + answers[indx].Key + ")" +
                                   answers[indx].Answer); // wyswietlamy odpowiedzi w losowej kolejnosci
             }
         }
