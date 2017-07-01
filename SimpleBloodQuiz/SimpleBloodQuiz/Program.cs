@@ -16,7 +16,7 @@ namespace SimpleBloodQuiz
              * 3. Jakie pliki powstają przy tworzeniu projektu i które wysyłać,
              *    żeby program działał u kogoś innego (.sln, .csproj?)
              * 4. Co zrobić, żeby zamieniał kolejność odpowiedzi w pytaniach na losową (jakiś random?)
-             * 5. Jak zrobić aplikację w oknie
+             * 5. Jak zrobić aplikację w oknie  -- aplikacja WPF
              */
 
 
